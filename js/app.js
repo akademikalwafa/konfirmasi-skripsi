@@ -77,6 +77,11 @@ function xls(){const R=S.adm.rows;if(!R.length)return toast('Belum ada data','er
  const rows=R.map((r,i)=>({No:i+1,Prodi:r.prodi,'Nama Lengkap':lat(r,'nama'),NIM:lat(r,'nim'),'Tempat Lahir':lat(r,'tempat'),'Tanggal Lahir':lat(r,'tgl'),'Judul Skripsi Final':lat(r,'judul'),'Nama (Asli)':r.a.nama,'Tempat Lahir (Asli)':r.a.tempat,'Tanggal Lahir (Asli)':r.a.tgl,'Judul (Asli)':r.a.judul,Status:r.status,'Waktu Konfirmasi':tm(r.waktu)}));
  const ws=XLSX.utils.json_to_sheet(rows);ws['!cols']=Object.keys(rows[0]).map(k=>({wch:Math.min(60,Math.max(k.length,...rows.map(r=>String(r[k]).length))+2)}));
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Data Konfirmasi');XLSX.writeFile(wb,'Konfirmasi_Skripsi.xlsx')}
+function tpl(){const H=['Prodi','Nama Lengkap','NIM','Tempat Lahir','Tanggal Lahir','Judul Skripsi Final'];
+ const ws=XLSX.utils.aoa_to_sheet([H,['Ekonomi Syariah','Hera Istiana','20190801042','Jakarta','14 Mei 2001','Pengaruh Literasi Keuangan Syariah terhadap Perilaku Menabung'],['Hukum Ekonomi Syariah','Annisa Fitriani','20190801019','Depok','9 Juli 2000','Tinjauan Yuridis Wakaf Produktif']]);
+ ws['!cols']=[{wch:24},{wch:26},{wch:14},{wch:16},{wch:16},{wch:60}];
+ const pt=XLSX.utils.aoa_to_sheet([['PETUNJUK PENGISIAN'],['1. Hapus 2 baris contoh pada sheet "Data", lalu isi data asli mulai baris ke-2.'],['2. Jangan ubah/hapus baris judul kolom (baris 1). Urutan kolom bebas, nama kolom harus mengandung: Prodi, Nama, NIM, Tempat, Tanggal, Judul.'],['3. Satu mahasiswa per baris. NIM harus unik (dipakai sebagai kunci saat impor ulang).'],['4. Tulis Tanggal Lahir sebagai teks, mis. 14 Mei 2001 (hindari format tanggal otomatis Excel).'],['5. Baris tanpa Prodi, Nama, atau NIM dihitung "bermasalah" dan dilewati.']]);
+ pt['!cols']=[{wch:110}];const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Data');XLSX.utils.book_append_sheet(wb,pt,'Petunjuk');XLSX.writeFile(wb,'Template_Impor_Konfirmasi_Skripsi.xlsx')}
 async function setApi(p,ok){try{await api('adminSettings',{token:S.tok,...p});toast(ok);refresh()}catch(e){toast(e.message,'err')}}
 
 // ===== INIT =====
@@ -86,10 +91,10 @@ document.addEventListener('DOMContentLoaded',()=>{
  $('#btnKode').onclick=mhsLogin;$('#btnProdi').onclick=()=>{$('#q').value='';renderNama();show('nama')};$('#q').oninput=renderNama;$('#btnSave').onclick=save;
  $('#goAdm').onclick=()=>S.tok?enterAdmin():show('admlogin');
  $('#btnAdm').onclick=async()=>{busy('#btnAdm',1);try{const r=await api('adminLogin',{u:$('#au').value.trim(),p:$('#ap').value});S.tok=localStorage.tok=r.token;$('#ap').value='';enterAdmin()}catch(e){toast(e.message,'err')}busy('#btnAdm',0)};
- $('#ap').onkeydown=e=>e.key==='Enter'&&$('#btnAdm').click();
+ $('#ap').onkeydown=e=>{if(e.key==='Enter')$('#btnAdm').click()};
  $$('aside a[data-n]').forEach(a=>a.onclick=()=>nav(a.dataset.n));$('#out').onclick=logout;
  ['fq','fp','fs'].forEach(i=>$('#'+i).oninput=()=>{S.pg=0;tbl()});$('#pv').onclick=()=>{S.pg=Math.max(0,S.pg-1);tbl()};$('#nx').onclick=()=>{S.pg++;tbl()};
- $('#btnRef').onclick=()=>{toast('Menyegarkan...');refresh()};$('#btnXls').onclick=xls;
+ $('#btnRef').onclick=()=>{toast('Menyegarkan...');refresh()};$('#btnXls').onclick=xls;$('#btnTpl').onclick=tpl;
  $('#btnSheet').onclick=()=>doImp('adminImportSheet',{url:$('#sUrl').value,sheet:$('#sTab').value});$('#xf').onchange=e=>e.target.files[0]&&xlsFile(e.target.files[0]);
  $('#btnKd').onclick=()=>setApi({kode:$('#nk').value.trim()},'Kode akses diperbarui');
  $('#btnCr').onclick=()=>setApi({user:$('#cu').value.trim(),oldPass:$('#co').value,newPass:$('#cn').value},'Akun admin diperbarui');
