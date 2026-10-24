@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Konfirmasi Skripsi</title><link rel="stylesheet" href="css/style.css"></head><body>
+<div id="toast"></div>
+
+<section class="view active" id="v-home"><div class="wrap">
+ <div class="logo">🎓</div><h1>Konfirmasi Skripsi</h1><p class="mut center">Pastikan data skripsi Anda benar sebelum dokumen ijazah dicetak</p>
+ <div class="card hero"><span class="pill y">Mahasiswa</span><p><b>Masukkan 4 Digit Kode Akses</b></p>
+  <div class="pin"><input type="tel" maxlength="1"><input type="tel" maxlength="1"><input type="tel" maxlength="1"><input type="tel" maxlength="1"></div>
+  <button class="btn" id="btnKode">Masuk dengan kode angka →</button></div>
+ <div class="card sel" id="goAdm"><span class="pill">Admin</span><h3>Dashboard &amp; Pengaturan (Admin)</h3><p class="mut">Pantau progres verifikasi, impor data mahasiswa, dan unduh rekap Excel.</p><b>Login dengan username &amp; password →</b></div>
+</div></section>
+
+<section class="view" id="v-prodi"><div class="wrap">
+ <div class="top"><button class="back" data-go="home">←</button><h2>Pilih Program Studi</h2></div><small>Langkah 1 dari 3</small>
+ <div id="prodiList"></div><button class="btn" id="btnProdi" disabled>Lanjut ke Pilih Nama →</button>
+</div></section>
+
+<section class="view" id="v-nama"><div class="wrap">
+ <div class="top"><button class="back" data-go="prodi">←</button><div><h2 style="margin:0">Pilih Nama Lengkap</h2><small>Langkah 2 dari 3</small></div></div>
+ <div class="card"><small>PROGRAM STUDI</small><b id="namaProdi"></b></div>
+ <input class="in q" id="q" placeholder="🔍 Cari nama atau NIM..."><small id="namaInfo" style="margin:8px 0"></small>
+ <div id="namaList"></div>
+ <div class="card"><b>Nama Anda tidak ada dalam daftar?</b><small>Silakan hubungi staf admin prodi.</small></div>
+</div></section>
+
+<section class="view" id="v-form"><div class="wrap">
+ <div class="top"><button class="back" data-go="nama">←</button><div><h2 style="margin:0">Konfirmasi Data Anda</h2><small>Langkah 3 dari 3</small></div></div>
+ <div class="card top" id="formHead"></div>
+ <div class="card" style="background:#e8fbf1"><small style="color:var(--g)">Centang <b>"Benar"</b> jika data sesuai. Jika salah, kosongkan centang dan tulis data perbaikan.</small></div>
+ <div id="formBody"></div>
+ <div class="bottom"><small id="cnt" style="flex:1"></small><button class="btn s w" data-go="nama">Batal</button><button class="btn s" id="btnSave" disabled>🔒 Simpan Konfirmasi</button></div>
+</div></section>
+
+<section class="view" id="v-done"><div class="wrap center">
+ <div class="logo" style="width:80px;height:80px;font-size:40px;background:var(--g);color:#fff">✓</div><h1>Data Berhasil Dikonfirmasi!</h1>
+ <p class="mut">Terima kasih. Data Anda telah tersimpan dan terkunci.</p><span class="pill ok">Status: Sudah Dikonfirmasi &amp; Terkunci</span>
+ <div class="card" id="doneBox" style="text-align:left"></div><button class="btn" data-go="home">Kembali ke Beranda</button>
+</div></section>
+
+<section class="view" id="v-admlogin"><div class="wrap">
+ <div class="top"><button class="back" data-go="home">←</button><h2>Masuk Admin</h2></div>
+ <div class="card"><input class="in" id="au" placeholder="Username" autocomplete="username"><input class="in" id="ap" type="password" placeholder="Password" autocomplete="current-password"><br><br><button class="btn" id="btnAdm">Masuk</button></div>
+</div></section>
+
+<section class="view" id="v-admin">
+ <aside><b>🎓 Konfirmasi Skripsi</b><a data-n="dash">📊 Dashboard</a><a data-n="set">⚙️ Pengaturan &amp; Impor</a><a id="out">Keluar</a></aside>
+ <div class="main">
+  <div class="apage" id="p-dash">
+   <div class="fl" style="justify-content:space-between;align-items:center"><h1 style="text-align:left">Dashboard Konfirmasi</h1><div class="fl"><button class="btn s w" id="btnRef">↻ Refresh</button><button class="btn s" id="btnXls">Unduh Excel (.xlsx)</button></div></div>
+   <div class="g3" id="stats"></div><div class="g2" id="charts"></div>
+   <div class="card"><div class="fl"><input class="in" id="fq" placeholder="🔍 Cari nama..."><select class="in" id="fp"></select><select class="in" id="fs"><option value="">Status: Semua</option><option>Sudah Konfirmasi</option><option>Belum Konfirmasi</option></select></div>
+    <div class="tw"><table><thead><tr><th>NAMA &amp; NIM<th>PRODI<th>JUDUL<th>KOREKSI<th>STATUS<th>WAKTU</thead><tbody id="tb"></tbody></table></div>
+    <div class="fl" style="justify-content:space-between;align-items:center;margin-top:10px"><small id="pgInfo"></small><div class="fl"><button class="btn s w" id="pv">‹</button><button class="btn s w" id="nx">›</button></div></div></div>
+  </div>
+  <div class="apage" id="p-det"></div>
+  <div class="apage" id="p-set">
+   <h1 style="text-align:left">Pengaturan &amp; Manajemen Data</h1>
+   <div class="card"><h3>Impor Data Mahasiswa</h3>
+    <input class="in" id="sUrl" placeholder="Spreadsheet ID atau URL (akses: siapa saja dapat melihat / pemilik sama)"><input class="in" id="sTab" placeholder="Nama sheet / tab, mis. Data_Mahasiswa_Final">
+    <label class="chk"><input type="checkbox" id="reset"> Reset konfirmasi untuk NIM yang sama (hati-hati)</label>
+    <div class="fl" style="margin-top:10px"><button class="btn s" id="btnSheet">Sinkronkan &amp; Impor (Sheets)</button><label class="btn s w">Unggah Excel (.xlsx)<input type="file" id="xf" accept=".xlsx,.xls,.csv" hidden></label></div>
+    <small style="margin-top:8px">Kolom dipetakan otomatis dari header: Nama, NIM, Prodi, Tempat, Tanggal Lahir, Judul. Impor ulang tidak menghapus konfirmasi yang sudah masuk.</small></div>
+   <div class="g2"><div class="card"><h3>Kode Akses Mahasiswa</h3><div class="donut" style="width:auto;font-size:34px;letter-spacing:8px" id="kodeNow"></div><input class="in" id="nk" maxlength="4" inputmode="numeric" placeholder="Kode baru (4 digit)"><br><br><button class="btn" id="btnKd">Simpan Kode Akses Baru</button></div>
+    <div class="card"><h3>Kredensial Akun Admin</h3><input class="in" id="cu" placeholder="Username"><input class="in" id="co" type="password" placeholder="Password saat ini"><input class="in" id="cn" type="password" placeholder="Password baru (min. 8 karakter)"><br><br><button class="btn" id="btnCr">Perbarui Akun Admin</button></div></div>
+   <div class="card"><h3>Rekam Aktivitas Sistem</h3><div class="tw"><table><thead><tr><th>WAKTU<th>AKTOR<th>AKSI<th>KETERANGAN</thead><tbody id="lg"></tbody></table></div></div>
+  </div>
+ </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script src="js/config.js" defer></script><script src="js/app.js" defer></script>
+</body></html>
