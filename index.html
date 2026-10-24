@@ -47,13 +47,16 @@
  <aside><b>🎓 Konfirmasi Skripsi</b><a data-n="dash">📊 Dashboard</a><a data-n="set">⚙️ Pengaturan &amp; Impor</a><a id="out">Keluar</a></aside>
  <div class="main">
   <div class="apage" id="p-dash">
-   <div class="fl" style="justify-content:space-between;align-items:center"><h1 style="text-align:left">Dashboard Konfirmasi</h1><div class="fl"><button class="btn s w" id="btnRef">↻ Refresh</button><button class="btn s" id="btnXls">Unduh Excel (.xlsx)</button></div></div>
+   <div class="fl" style="justify-content:space-between;align-items:center"><h1 style="text-align:left">Dashboard Konfirmasi</h1><div class="fl"><button class="btn s w" id="btnRef">↻ Refresh</button><button class="btn s w" id="btnAdd">＋ Tambah Mahasiswa</button><button class="btn s" id="btnXls">Unduh Excel (.xlsx)</button></div></div>
    <div class="g3" id="stats"></div><div class="g2" id="charts"></div>
    <div class="card"><div class="fl"><input class="in" id="fq" placeholder="🔍 Cari nama..."><select class="in" id="fp"></select><select class="in" id="fs"><option value="">Status: Semua</option><option>Sudah Konfirmasi</option><option>Belum Konfirmasi</option></select></div>
     <div class="tw"><table><thead><tr><th>NAMA &amp; NIM<th>PRODI<th>JUDUL<th>KOREKSI<th>STATUS<th>WAKTU</thead><tbody id="tb"></tbody></table></div>
     <div class="fl" style="justify-content:space-between;align-items:center;margin-top:10px"><small id="pgInfo"></small><div class="fl"><button class="btn s w" id="pv">‹</button><button class="btn s w" id="nx">›</button></div></div></div>
   </div>
   <div class="apage" id="p-det"></div>
+  <div class="apage" id="p-add"><button class="btn s w" id="addBk">← Kembali ke Dashboard</button><h1 style="text-align:left">Tambah Data Mahasiswa</h1>
+   <div class="card"><input class="in" id="n_prodi" list="dlProdi" placeholder="Program Studi *"><datalist id="dlProdi"></datalist><input class="in" id="n_nama" placeholder="Nama Lengkap *"><input class="in" id="n_nim" placeholder="NIM * (harus unik)"><input class="in" id="n_tempat" placeholder="Tempat Lahir"><input class="in" id="n_tgl" placeholder="Tanggal Lahir, mis. 14 Mei 2001"><input class="in" id="n_judul" placeholder="Judul Skripsi Final">
+    <label class="chk" style="margin:12px 0"><input type="checkbox" id="n_ij"> Belum menyerahkan ijazah (wajib unggah PDF saat konfirmasi)</label><button class="btn" id="btnAddSave">Simpan Mahasiswa</button></div></div>
   <div class="apage" id="p-set">
    <h1 style="text-align:left">Pengaturan &amp; Manajemen Data</h1>
    <div class="card"><h3>Impor Data Mahasiswa</h3>
